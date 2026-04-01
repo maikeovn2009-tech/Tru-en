@@ -1,4 +1,4 @@
-#TRUYỆN
+#VĂN HỌC MẠNG
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -142,8 +142,8 @@ nav a:hover,nav a.active{color:var(--text-main);}
 <!-- HOME -->
 <div class="page active" id="page-home">
   <div class="hero">
-    <h1>Những câu chuyện<br><em>từ trái tim tôi</em></h1>
-    <p>Tập hợp các truyện ngắn và dài kỳ do mình tự viết. Mỗi câu chuyện là một chuyến đi nhỏ.</p>
+    <h1><span id="hero-line1">Những câu chuyện</span><br><em id="hero-line2">từ trái tim tôi</em></h1>
+    <p id="hero-sub">Tập hợp các truyện ngắn và dài kỳ do mình tự viết. Mỗi câu chuyện là một chuyến đi nhỏ.</p>
   </div>
   <div class="controls">
     <div class="search-box">
@@ -204,10 +204,44 @@ nav a:hover,nav a.active{color:var(--text-main);}
 <!-- ABOUT -->
 <div class="page" id="page-about">
   <div class="about-wrap">
-    <h1>Về tác giả</h1>
-    <p>Xin chào! Mình là [Tên của bạn], một người yêu thích viết lách và kể chuyện.</p>
-    <p>Trang web này là nơi mình lưu giữ và chia sẻ những câu chuyện mình tự viết — từ những mẩu oneshot viết trong đêm khuya đến những bộ truyện dài hơi ấp ủ từ lâu.</p>
-    <p>Cảm ơn bạn đã ghé thăm và đọc truyện của mình!</p>
+    <h1 id="about-title">Về tác giả</h1>
+    <p id="about-p1">Xin chào! Mình là [Tên của bạn], một người yêu thích viết lách và kể chuyện.</p>
+    <p id="about-p2">Trang web này là nơi mình lưu giữ và chia sẻ những câu chuyện mình tự viết — từ những mẩu oneshot viết trong đêm khuya đến những bộ truyện dài hơi ấp ủ từ lâu.</p>
+    <p id="about-p3">Cảm ơn bạn đã ghé thăm và đọc truyện của mình!</p>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="page" id="page-login">
+  <div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2.5rem 2rem;width:100%;max-width:380px;">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🔐</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.3rem;">Khu vực tác giả</div>
+        <div style="font-size:0.83rem;color:var(--text-hint);">Chỉ dành cho chủ trang</div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:0.75rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.3rem;">Tên đăng nhập</label>
+        <input type="text" id="login-username" placeholder="Nhập tên đăng nhập"
+          style="width:100%;padding:0.6rem 0.85rem;border:1px solid var(--border-strong);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text-main);background:var(--bg);outline:none;"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <label style="display:block;font-size:0.75rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.3rem;">Mật khẩu</label>
+        <input type="password" id="login-password" placeholder="Nhập mật khẩu"
+          style="width:100%;padding:0.6rem 0.85rem;border:1px solid var(--border-strong);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text-main);background:var(--bg);outline:none;"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div id="login-error" style="display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:0.6rem 0.9rem;font-size:0.83rem;color:#DC2626;margin-bottom:1rem;">
+        Tên đăng nhập hoặc mật khẩu không đúng.
+      </div>
+      <button onclick="doLogin()" style="width:100%;background:var(--accent);color:#FFF;border:none;padding:0.65rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;">
+        Đăng nhập
+      </button>
+      <div style="text-align:center;margin-top:1.25rem;">
+        <span onclick="goHome()" style="font-size:0.82rem;color:var(--text-hint);cursor:pointer;">← Quay về trang chủ</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -280,6 +314,7 @@ nav a:hover,nav a.active{color:var(--text-main);}
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
         <button class="btn-primary" onclick="exportHTML()">⬇ Xuất file HTML</button>
         <button class="btn-secondary" onclick="goHome()">← Xem trang chủ</button>
+        <button class="btn-secondary" onclick="doLogout()" style="margin-left:auto;color:var(--text-hint);">Đăng xuất</button>
       </div>
     </div>
   </div>
@@ -288,6 +323,41 @@ nav a:hover,nav a.active{color:var(--text-main);}
 <div class="toast" id="toast"></div>
 
 <script>
+// ================================================================
+//  ✏️  KHU VỰC CÀI ĐẶT NỘI DUNG — CHỈ SỬA Ở ĐÂY THÔI
+//  Thay chữ trong dấu ngoặc kép "..." là xong, không làm gì khác
+// ================================================================
+const TEXT = {
+
+  // --- Thanh menu trên cùng ---
+  logo        : "✦ Góc Truyện",       // Tên hiển thị góc trái header
+  nav_home    : "Trang chủ",
+  nav_about   : "Tác giả",
+  nav_admin   : "Quản lý",
+
+  // --- Trang chủ ---
+  hero_line1  : "Song tu là đạo",   // Dòng 1 tiêu đề lớn (chữ thường)
+  hero_line2  : "Song hành là duyên",    // Dòng 2 tiêu đề lớn (chữ nghiêng, màu vàng)
+  hero_sub    : "Đạo vô vi ấy là yên - truyện đây kể trọn, duyên duyên ắt tìm.",
+
+  // --- Ô tìm kiếm ---
+  search_placeholder : "Tìm tên truyện...",
+
+  // --- Nhãn bộ lọc ---
+  label_genre : "Thể loại",
+  label_type  : "Dạng",
+
+  // --- Trang Tác giả ---
+  about_title : "Về tác giả",
+  about_p1    : "Xin chào! Mình là Wien aka Hỏa Ngư, thích viết ra những chuyện mình vu vơ nghĩ đến.",
+  about_p2    : "Trang web này là nơi mình lưu giữ và chia sẻ những câu chuyện mình tự viết — từ những mẩu oneshot viết trong đêm khuya đến những bộ truyện dài hơi ấp ủ từ lâu. Có khi truyện sẽ ra khá lâu và văn phong hơi "AI" tí mọi người thông cảm nhoa.",
+  about_p3    : "Cảm ơn bạn đã ghé thăm và đọc truyện của mình!",
+
+};
+// ================================================================
+//  KẾT THÚC KHU VỰC CÀI ĐẶT — code bên dưới không cần đụng vào
+// ================================================================
+
 // ==== DỮ LIỆU ====
 let STORIES = [
   {id:1,title:"Mùa Hè Không Tên",genre:"Xuyên Không/Trùng Sinh",type:"Oneshot",desc:"Câu chuyện về hai người trẻ gặp nhau trong một mùa hè ngắn ngủi, và những kỷ niệm họ để lại cho nhau mãi mãi không phai.",cover:{bg:"linear-gradient(135deg,#F59E0B,#D97706)",emoji:"M"},chapters:[{title:"Buổi chiều đầu tiên",content:"<p>Hà gặp Minh vào một buổi chiều tháng Sáu, khi cơn mưa đầu mùa còn chưa kịp tan.</p><p>Quán cà phê nhỏ hôm ấy đông hơn thường lệ. Hà chọn chiếc ghế cạnh cửa sổ — để những hạt nước li ti bắn vào tay mà không cảm thấy khó chịu, chỉ thấy gì đó dịu nhẹ đến kỳ lạ.</p><p>\"Xin lỗi, chỗ này còn trống không?\"</p><p>Cô ngẩng lên. Một anh chàng đứng trước mặt, tóc ướt một nửa, nụ cười hơi ngại ngùng. Tay cầm chiếc máy ảnh phim cũ, trông như vừa từ năm 1998 bước ra.</p><p>Hà nhìn xung quanh — quán đã kín hết chỗ từ bao giờ.</p><p>\"Được,\" cô nói, rồi dịch chiếc túi vải sang một bên.</p>"}]},
@@ -511,9 +581,79 @@ function showPage(id) {
 
 function goHome()  { showPage('page-home');  applyFilters(); }
 function goAbout() { showPage('page-about'); }
-function goAdmin() { showPage('page-admin'); refreshStorySelect(); refreshManageList(); }
+
+// ==== ĐĂNG NHẬP ====
+// ✏️ Đổi tên và mật khẩu ở đây nếu muốn
+const ADMIN_USER = "tam hon thu thai hon dai am duong";
+const ADMIN_PASS = "1900100biet";
+let isLoggedIn = false;
+
+function goAdmin() {
+  if (isLoggedIn) {
+    showPage('page-admin');
+    refreshStorySelect();
+    refreshManageList();
+  } else {
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-error').style.display = 'none';
+    showPage('page-login');
+    setTimeout(() => document.getElementById('login-username').focus(), 100);
+  }
+}
+
+function doLogin() {
+  const u = document.getElementById('login-username').value.trim();
+  const p = document.getElementById('login-password').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    isLoggedIn = true;
+    document.getElementById('login-error').style.display = 'none';
+    showPage('page-admin');
+    refreshStorySelect();
+    refreshManageList();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-password').focus();
+  }
+}
+
+function doLogout() {
+  isLoggedIn = false;
+  goHome();
+  showToast('Đã đăng xuất.');
+}
+
+// ==== ÁP DỤNG TEXT CONFIG VÀO TRANG ====
+function applyTextConfig() {
+  // Header
+  document.querySelector('.logo').textContent            = TEXT.logo;
+  document.getElementById('nav-home').textContent        = TEXT.nav_home;
+  document.getElementById('nav-about').textContent       = TEXT.nav_about;
+  document.getElementById('nav-admin').textContent       = TEXT.nav_admin;
+
+  // Hero
+  document.getElementById('hero-line1').textContent      = TEXT.hero_line1;
+  document.getElementById('hero-line2').textContent      = TEXT.hero_line2;
+  document.getElementById('hero-sub').textContent        = TEXT.hero_sub;
+
+  // Search
+  document.getElementById('search-input').placeholder   = TEXT.search_placeholder;
+
+  // Filter labels
+  const labels = document.querySelectorAll('.filter-label');
+  if (labels[0]) labels[0].textContent = TEXT.label_genre;
+  if (labels[1]) labels[1].textContent = TEXT.label_type;
+
+  // About
+  document.getElementById('about-title').textContent    = TEXT.about_title;
+  document.getElementById('about-p1').textContent       = TEXT.about_p1;
+  document.getElementById('about-p2').textContent       = TEXT.about_p2;
+  document.getElementById('about-p3').textContent       = TEXT.about_p3;
+}
 
 // Init
+applyTextConfig();
 applyFilters();
 </script>
 </body>
